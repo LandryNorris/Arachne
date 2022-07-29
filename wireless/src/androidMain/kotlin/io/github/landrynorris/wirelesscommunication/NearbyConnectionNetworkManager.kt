@@ -1,12 +1,8 @@
 package io.github.landrynorris.wirelesscommunication
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
-import android.provider.Settings
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import com.google.android.gms.nearby.connection.Payload as AndroidPayload
@@ -55,8 +51,8 @@ class NearbyConnectionNetworkManager(val context: Context,
         val options = DiscoveryOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build()
         Nearby.getConnectionsClient(context).startDiscovery(sessionInfo.sessionName,
             object: EndpointDiscoveryCallback() {
-            override fun onEndpointFound(id: String, endpointInfo: DiscoveredEndpointInfo) {
-                val newEndpoint = Endpoint(id, endpointInfo.endpointName)
+            override fun onEndpointFound(id: String, info: DiscoveredEndpointInfo) {
+                val newEndpoint = Endpoint(id, info.endpointName)
                 connections.update { it + newEndpoint }
             }
 
@@ -74,7 +70,7 @@ class NearbyConnectionNetworkManager(val context: Context,
         Nearby.getConnectionsClient(context).stopDiscovery()
     }
 
-    fun sendPayload(endpoint: String, data: ByteArray) {
-        Nearby.getConnectionsClient(context).sendPayload(endpoint, AndroidPayload.fromBytes(data))
+    override fun sendPayload(endpoint: Endpoint, payload: Payload) {
+        Nearby.getConnectionsClient(context).sendPayload(endpoint.id, AndroidPayload.fromBytes(payload.bytes))
     }
 }

@@ -9,4 +9,5 @@ abstract class ConnectionManager {
     abstract suspend fun startAdvertising()
     abstract suspend fun startDiscovery()
 
+    abstract fun sendPayload(endpoint: Endpoint, payload: Payload)
 }
