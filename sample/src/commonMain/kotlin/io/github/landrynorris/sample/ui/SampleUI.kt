@@ -19,9 +19,6 @@ import io.github.landrynorris.sample.components.SampleLogic
 fun SampleUI(logic: SampleLogic) {
     val state by logic.state.collectAsState()
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Is P2P enabled? ${state.isConnected}")
-
-        Spacer(Modifier.width(5.dp))
         LazyColumn {
             items(state.devices) {
                 Text("Device: ${it.name}@${it.address}")

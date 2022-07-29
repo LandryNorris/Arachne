@@ -7,6 +7,7 @@ import com.arkivanov.decompose.defaultComponentContext
 import io.github.landrynorris.sample.components.SampleComponent
 import io.github.landrynorris.sample.ui.SampleUI
 import io.github.landrynorris.wirelesscommunication.AndroidNetworkManager
+import io.github.landrynorris.wirelesscommunication.NearbyConnectionNetworkManager
 import io.github.landrynorris.wirelesscommunication.SessionInfo
 import java.util.UUID
 import kotlin.random.Random
@@ -18,7 +19,7 @@ class MainActivity: AppCompatActivity() {
 
         val sessionInfo = SessionInfo("my custom session", UUID.randomUUID().toString(),
             "A device with id ${Random.nextInt()}")
-        val networkManager = AndroidNetworkManager(this, sessionInfo)
+        val networkManager = NearbyConnectionNetworkManager(this, sessionInfo)
         val logic = SampleComponent(defaultComponentContext(), networkManager)
 
         setContent {

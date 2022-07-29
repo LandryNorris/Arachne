@@ -1,6 +1,7 @@
 package io.github.landrynorris.sample.components
 
 import com.arkivanov.decompose.ComponentContext
+import io.github.landrynorris.wirelesscommunication.ConnectionManager
 import io.github.landrynorris.wirelesscommunication.NetworkManager
 import io.github.landrynorris.wirelesscommunication.WirelessDevice
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 interface SampleLogic {
     val state: StateFlow<SampleState>
@@ -17,16 +19,18 @@ interface SampleLogic {
     fun init() {}
 }
 
-class SampleComponent(context: ComponentContext, private val manager: NetworkManager):
+class SampleComponent(context: ComponentContext, private val manager: ConnectionManager):
     ComponentContext by context, SampleLogic {
     override val state = MutableStateFlow(SampleState())
 
     override fun init() {
-        manager.initialize()
-
         CoroutineScope(Dispatchers.Default).launch {
-            manager.networkState.collectLatest { latestState ->
-                state.update { it.copy(isConnected = latestState.isP2pEnabled, devices = latestState.devices) }
+            manager.startAdvertising()
+
+            manager.connections.collect { endpoints ->
+                state.update { it.copy(devices = endpoints.map { endpoint ->
+                    WirelessDevice(endpoint.id, endpoint.name)
+                }) }
             }
         }
     }
