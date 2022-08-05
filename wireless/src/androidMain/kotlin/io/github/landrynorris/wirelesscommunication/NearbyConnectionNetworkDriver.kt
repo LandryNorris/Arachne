@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import com.google.android.gms.nearby.connection.Payload as AndroidPayload
 
-class NearbyConnectionNetworkManager(val context: Context,
-                                     private val sessionInfo: SessionInfo): ConnectionManager() {
+class NearbyConnectionNetworkDriver(val context: Context,
+                                    private val sessionInfo: SessionInfo): ConnectionDriver() {
 
     /**
      * A flow that emits a value when a new payload is received.
@@ -27,6 +27,7 @@ class NearbyConnectionNetworkManager(val context: Context,
             override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
                 Nearby.getConnectionsClient(context).acceptConnection(endpointId, object: PayloadCallback() {
                     override fun onPayloadReceived(endpointId: String, payload: AndroidPayload) {
+                        println("Received Payload. Sending to flow")
                         payloadFlow.update { Payload(payload.asBytes() ?: byteArrayOf()) }
                     }
 

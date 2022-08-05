@@ -2,7 +2,7 @@ package io.github.landrynorris.wirelesscommunication
 
 import kotlinx.coroutines.flow.Flow
 
-abstract class ConnectionManager {
+abstract class ConnectionDriver {
     abstract val payloadFlow: Flow<Payload>
     abstract val connections: Flow<List<Endpoint>>
 

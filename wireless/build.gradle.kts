@@ -25,6 +25,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.4.0-RC")
+
             }
         }
         val commonTest by getting {
