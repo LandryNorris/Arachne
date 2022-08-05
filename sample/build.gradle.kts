@@ -5,6 +5,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.application")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 version = "1.0"
@@ -28,6 +29,7 @@ kotlin {
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             dependencies {
                 implementation(project(":wireless"))
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.0-RC")
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.foundation)
@@ -45,7 +47,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(project(":wireless"))
-                implementation("androidx.activity:activity-compose:1.5.0")
+                implementation("androidx.activity:activity-compose:1.5.1")
                 implementation("com.google.android.material:material:1.6.1")
                 implementation("androidx.appcompat:appcompat:1.4.2")
                 implementation("androidx.constraintlayout:constraintlayout:2.1.4")

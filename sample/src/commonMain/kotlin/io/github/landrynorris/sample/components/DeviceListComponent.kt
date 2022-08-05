@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface SampleLogic {
-    val state: StateFlow<SampleState>
+interface DeviceListLogic {
+    val state: StateFlow<DeviceListState>
 
     fun init() {}
 }
 
-class SampleComponent(context: ComponentContext, private val manager: ConnectionDriver):
-    ComponentContext by context, SampleLogic {
-    override val state = MutableStateFlow(SampleState())
+class DeviceListComponent(context: ComponentContext, private val manager: ConnectionDriver):
+    ComponentContext by context, DeviceListLogic {
+    override val state = MutableStateFlow(DeviceListState())
 
     override fun init() {
         CoroutineScope(Dispatchers.Default).launch {
@@ -34,4 +34,4 @@ class SampleComponent(context: ComponentContext, private val manager: Connection
     }
 }
 
-data class SampleState(val isConnected: Boolean = false, val devices: List<WirelessDevice> = listOf())
+data class DeviceListState(val isConnected: Boolean = false, val devices: List<WirelessDevice> = listOf())

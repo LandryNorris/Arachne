@@ -10,4 +10,7 @@ abstract class ConnectionDriver {
     abstract suspend fun startDiscovery()
 
     abstract fun sendPayload(endpoint: Endpoint, payload: Payload)
+
+    abstract fun stopDiscovery()
+    abstract fun stopAdvertising()
 }
